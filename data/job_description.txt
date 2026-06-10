@@ -1,0 +1,27 @@
+We are looking for a Python Developer with strong programming and problem-solving skills.
+
+Required Skills:
+- Python
+- SQL
+- Git
+- HTML
+- CSS
+- JavaScript
+- Flask
+- REST API
+
+Preferred Skills:
+- Machine Learning
+- Docker
+- Linux
+- AWS
+
+Education:
+Bachelor's degree in Computer Science, Information Technology, or related field.
+
+Responsibilities:
+Develop and maintain web applications using Python and Flask.
+Design and optimize database queries.
+Collaborate with team members using Git version control.
+Create REST APIs and integrate third-party services.
+Write clean, maintainable, and scalable code.

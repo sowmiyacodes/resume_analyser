@@ -1,41 +1,62 @@
-def load_skills(skill_file):
-    with open(skill_file, "r") as file:
-        skills = [line.strip().lower() for line in file]
+def calculate_skill_score(
+        resume_skills,
+        jd_skills):
 
-    return skills
+    matched = len(
+        set(resume_skills)
+        &
+        set(jd_skills)
+    )
 
-
-def extract_skills(text, skills_db):
-    text = text.lower()
-
-    found_skills = []
-
-    for skill in skills_db:
-        if skill in text:
-            found_skills.append(skill)
-
-    return found_skills
+    return (
+        matched /
+        len(jd_skills)
+    ) * 100
 
 
-def find_missing_skills(resume_skills, job_description):
-    jd = job_description.lower()
+def calculate_experience_score(
+        years):
 
-    missing = []
+    if years >= 3:
+        return 100
 
-    for skill in resume_skills:
-        if skill not in jd:
-            continue
+    elif years == 2:
+        return 75
 
-    return missing
+    elif years == 1:
+        return 50
+
+    return 20
 
 
-def get_jd_skills(job_description, skills_db):
-    job_description = job_description.lower()
+def calculate_education_score(
+        education):
 
-    jd_skills = []
+    if education in [
+        "B.Tech",
+        "B.E",
+        "M.Tech"
+    ]:
+        return 100
 
-    for skill in skills_db:
-        if skill in job_description:
-            jd_skills.append(skill)
+    elif education == "MCA":
+        return 90
 
-    return jd_skills
+    return 60
+
+
+def calculate_final_score(
+        skill_score,
+        exp_score,
+        edu_score):
+
+    return round(
+
+        skill_score * 0.6 +
+
+        exp_score * 0.2 +
+
+        edu_score * 0.2,
+
+        2
+    )

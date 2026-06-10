@@ -1,17 +1,88 @@
 python
 java
-c++
 c
+c++
+c#
 sql
+mysql
+oracle
+postgresql
+mongodb
+
 html
 css
 javascript
+typescript
 react
+angular
+vue
 nodejs
-flask
+express
+
+php
 django
-machine learning
-deep learning
-data analysis
+flask
+spring
+spring boot
+asp.net
+
 git
 github
+gitlab
+
+machine learning
+deep learning
+artificial intelligence
+nlp
+computer vision
+data science
+data analysis
+pandas
+numpy
+matplotlib
+scikit-learn
+tensorflow
+keras
+pytorch
+
+aws
+azure
+gcp
+docker
+kubernetes
+
+linux
+unix
+shell scripting
+
+data structures
+algorithms
+oop
+operating systems
+computer networks
+dbms
+
+rest api
+graphql
+microservices
+
+power bi
+tableau
+excel
+
+agile
+scrum
+
+firebase
+redis
+
+cybersecurity
+ethical hacking
+
+devops
+jenkins
+ci/cd
+
+selenium
+pytest
+junit

@@ -1,129 +1,135 @@
+import os
+
 from parser import extract_text_from_pdf
-from scorer import load_skills, extract_skills, get_jd_skills
-from matcher import match_resume
 
-# ==========================
-# CONFIGURATION
-# ==========================
+from skills import (
+    load_skills,
+    extract_skills,
+    extract_job_skills
+)
 
-RESUME_PATH = "../data/sample_resume.pdf"
+from experience import (
+    extract_experience
+)
 
-JOB_DESCRIPTION = """
-Looking for a Python Developer with experience in
-SQL, Flask, Git, HTML, CSS and Machine Learning.
-"""
+from education import (
+    extract_education
+)
 
-# ==========================
-# LOAD SKILLS DATABASE
-# ==========================
+from scorer import *
 
-skills_db = load_skills("../data/skills.txt")
+from ranker import rank_candidates
 
-# ==========================
-# EXTRACT RESUME TEXT
-# ==========================
+from database import (
+    insert_candidate
+)
 
-resume_text = extract_text_from_pdf(RESUME_PATH)
+skills_db = load_skills(
+    "../data/skills.txt"
+)
 
-# ==========================
-# EXTRACT SKILLS
-# ==========================
+with open(
+        "../data/job_description.txt",
+        "r"
+) as file:
 
-resume_skills = extract_skills(
-    resume_text,
+    jd = file.read()
+
+jd_skills = extract_job_skills(
+    jd,
     skills_db
 )
 
-jd_skills = get_jd_skills(
-    JOB_DESCRIPTION,
-    skills_db
+resume_folder = "../data/resumes"
+
+candidates = []
+
+for file in os.listdir(
+        resume_folder
+):
+
+    if file.endswith(".pdf"):
+
+        path = os.path.join(
+            resume_folder,
+            file
+        )
+
+        text = extract_text_from_pdf(
+            path
+        )
+
+        skills = extract_skills(
+            text,
+            skills_db
+        )
+
+        experience = extract_experience(
+            text
+        )
+
+        education = extract_education(
+            text
+        )
+
+        skill_score = calculate_skill_score(
+            skills,
+            jd_skills
+        )
+
+        exp_score = calculate_experience_score(
+            experience
+        )
+
+        edu_score = calculate_education_score(
+            education
+        )
+
+        final_score = calculate_final_score(
+            skill_score,
+            exp_score,
+            edu_score
+        )
+
+        candidate = {
+
+            "name":
+            file.replace(".pdf", ""),
+
+            "skills":
+            skills,
+
+            "education":
+            education,
+
+            "experience":
+            experience,
+
+            "score":
+            final_score
+
+        }
+
+        candidates.append(
+            candidate
+        )
+
+ranked = rank_candidates(
+    candidates
 )
 
-# ==========================
-# FIND MATCHING SKILLS
-# ==========================
+for candidate in ranked:
 
-matched_skills = []
-
-for skill in jd_skills:
-    if skill in resume_skills:
-        matched_skills.append(skill)
-
-# ==========================
-# FIND MISSING SKILLS
-# ==========================
-
-missing_skills = []
-
-for skill in jd_skills:
-    if skill not in resume_skills:
-        missing_skills.append(skill)
-
-# ==========================
-# ATS SKILL SCORE
-# ==========================
-
-if len(jd_skills) > 0:
-    skill_match_score = round(
-        (len(matched_skills) / len(jd_skills)) * 100,
-        2
+    insert_candidate(
+        candidate
     )
-else:
-    skill_match_score = 0
 
-# ==========================
-# COSINE SIMILARITY SCORE
-# ==========================
+print("\n===== ATS RANKINGS =====\n")
 
-resume_skills_text = " ".join(resume_skills)
-jd_skills_text = " ".join(jd_skills)
+for candidate in ranked:
 
-cosine_score = match_resume(
-    resume_skills_text,
-    jd_skills_text
-)
-
-# ==========================
-# PRINT RESULTS
-# ==========================
-
-print("\n========== AI RESUME ANALYZER ==========\n")
-
-print("Skills Found:")
-for skill in resume_skills:
-    print(f"- {skill}")
-
-print("\nJob Skills:")
-for skill in jd_skills:
-    print(f"- {skill}")
-
-print("\nMatched Skills:")
-for skill in matched_skills:
-    print(f"- {skill}")
-
-print("\nMissing Skills:")
-for skill in missing_skills:
-    print(f"- {skill}")
-
-print("\n---------------------------")
-print(f"ATS Skill Match Score : {skill_match_score}%")
-print(f"Cosine Similarity     : {cosine_score}%")
-print("---------------------------")
-
-# ==========================
-# FEEDBACK
-# ==========================
-
-if skill_match_score >= 85:
-    print("\nExcellent Match")
-elif skill_match_score >= 70:
-    print("\nGood Match")
-elif skill_match_score >= 50:
-    print("\nAverage Match")
-else:
-    print("\nNeeds Improvement")
-
-if missing_skills:
-    print("\nRecommended Skills To Learn:")
-    for skill in missing_skills:
-        print(f"- {skill}")
+    print(
+        f"Rank {candidate['rank']} | "
+        f"{candidate['name']} | "
+        f"{candidate['score']}%"
+    )

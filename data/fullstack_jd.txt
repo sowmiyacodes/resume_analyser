@@ -1,0 +1,25 @@
+We are hiring a Full Stack Developer.
+
+Required Skills:
+- HTML
+- CSS
+- JavaScript
+- React
+- NodeJS
+- Express
+- SQL
+- Git
+
+Preferred Skills:
+- Docker
+- AWS
+- MongoDB
+
+Education:
+Bachelor's degree in Computer Science or Information Technology.
+
+Responsibilities:
+Build responsive web applications.
+Develop backend APIs.
+Work with relational and NoSQL databases.
+Collaborate with frontend and backend teams.

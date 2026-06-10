@@ -1,0 +1,24 @@
+We are seeking a Data Analyst with strong analytical and visualization skills.
+
+Required Skills:
+- SQL
+- Python
+- Excel
+- Power BI
+- Data Analysis
+- Pandas
+- NumPy
+
+Preferred Skills:
+- Machine Learning
+- Tableau
+- Statistics
+
+Education:
+Bachelor's degree in IT, Computer Science, Mathematics, or Statistics.
+
+Responsibilities:
+Analyze business data and generate reports.
+Create dashboards and visualizations.
+Perform data cleaning and preprocessing.
+Support decision-making using insights from data.
